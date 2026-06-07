@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatDate, getLivePosts } from '../lib/posts';
+
+const posts = await getLivePosts();
+const recentPosts = posts.slice(0, 7);
+---
+
+<BaseLayout>
+  <section>
+    <h1>Matter of Matter</h1>
+    <p class="lede">An archive of essays, fragments, and notes carried over from Blogger.</p>
+  </section>
+
+  <section class="post-list" aria-label="Recent posts">
+    {
+      recentPosts.map((post) => (
+        <article class="post-row">
+          <h2><a href={post.data.bloggerPath}>{post.data.title}</a></h2>
+          <div class="meta">{formatDate(post.data.published)}</div>
+          {post.data.description && <p>{post.data.description}</p>}
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>

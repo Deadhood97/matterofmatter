@@ -1,0 +1,188 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteTitle = 'Matter of Matter';
+const { title = siteTitle, description = 'Personal essays from Matter of Matter.' } = Astro.props;
+const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
+    <title>{pageTitle}</title>
+    <style is:global>
+      :root {
+        color-scheme: light;
+        --ink: #20201d;
+        --muted: #6b675f;
+        --paper: #f8f5ee;
+        --panel: #fffdfa;
+        --line: #ded7c9;
+        --accent: #2c6e63;
+        --accent-dark: #174c45;
+        font-family: Georgia, 'Times New Roman', serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      a {
+        color: var(--accent-dark);
+        text-decoration-thickness: 0.08em;
+        text-underline-offset: 0.18em;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 1.5rem auto;
+      }
+
+      .site-shell {
+        width: min(100% - 32px, 760px);
+        margin: 0 auto;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 3rem;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 0;
+      }
+
+      .brand {
+        color: var(--ink);
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.92rem;
+      }
+
+      main {
+        padding-bottom: 5rem;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(2.2rem, 6vw, 4.4rem);
+      }
+
+      h2 {
+        margin-top: 2.5rem;
+        font-size: 1.55rem;
+      }
+
+      .lede {
+        color: var(--muted);
+        font-size: 1.12rem;
+      }
+
+      .post-list {
+        display: grid;
+        gap: 1.25rem;
+        margin-top: 2.5rem;
+      }
+
+      .post-row {
+        border-top: 1px solid var(--line);
+        padding-top: 1.25rem;
+      }
+
+      .post-row h2 {
+        margin: 0 0 0.3rem;
+        font-size: 1.35rem;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .post-body {
+        margin-top: 2.5rem;
+      }
+
+      .post-body :where(p, ul, ol, blockquote) {
+        margin: 1.2rem 0;
+      }
+
+      .post-body blockquote {
+        border-left: 3px solid var(--accent);
+        color: var(--muted);
+        padding-left: 1rem;
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.9rem;
+        padding: 2rem 0;
+      }
+
+      @media (max-width: 560px) {
+        body {
+          font-size: 17px;
+        }
+
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-shell nav">
+        <a class="brand" href="/">Matter of Matter</a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/archive.html">Archive</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+      </div>
+    </header>
+    <main class="site-shell">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="site-shell">Matter of Matter</div>
+    </footer>
+  </body>
+</html>

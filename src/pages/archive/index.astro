@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, getLivePosts } from '../../lib/posts';
+
+const posts = await getLivePosts();
+---
+
+<BaseLayout title="Archive" description="All published Matter of Matter posts.">
+  <h1>Archive</h1>
+  <section class="post-list" aria-label="All posts">
+    {
+      posts.map((post) => (
+        <article class="post-row">
+          <h2><a href={post.data.bloggerPath}>{post.data.title}</a></h2>
+          <div class="meta">{formatDate(post.data.published)}</div>
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>

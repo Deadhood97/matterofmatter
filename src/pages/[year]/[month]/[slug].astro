@@ -1,0 +1,40 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getLivePosts, formatDate } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getLivePosts();
+
+  return posts.map((post) => {
+    const match = post.data.bloggerPath.match(/^\/(?<year>\d{4})\/(?<month>\d{2})\/(?<slug>[^/]+)\.html$/);
+
+    if (!match?.groups) {
+      throw new Error(`Unexpected Blogger path: ${post.data.bloggerPath}`);
+    }
+
+    return {
+      params: match.groups,
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article>
+    <header>
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        {formatDate(post.data.published)}
+        {post.data.author ? ` by ${post.data.author}` : ''}
+      </div>
+    </header>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
