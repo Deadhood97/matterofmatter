@@ -35,6 +35,10 @@ jobs:
         run: npm run backfill:docs
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_AUTH_MODE: oauth
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
           GOOGLE_PUBLISH_FOLDER_ID: ${{ secrets.GOOGLE_PUBLISH_FOLDER_ID }}
           GOOGLE_DRAFTS_FOLDER_ID: ${{ secrets.GOOGLE_DRAFTS_FOLDER_ID }}
           GOOGLE_EDITOR_EMAIL: ${{ secrets.GOOGLE_EDITOR_EMAIL }}

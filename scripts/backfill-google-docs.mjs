@@ -13,7 +13,7 @@ const publishFolderId = requireEnv('GOOGLE_PUBLISH_FOLDER_ID');
 const draftsFolderId = requireEnv('GOOGLE_DRAFTS_FOLDER_ID');
 const editorEmail = process.env.GOOGLE_EDITOR_EMAIL;
 const limit = Number(process.env.BACKFILL_LIMIT ?? '0');
-const { drive } = await getGoogleClients();
+const { drive } = await getGoogleClients({ authMode: process.env.GOOGLE_AUTH_MODE ?? 'oauth' });
 
 const livePosts = await findPosts();
 const drafts = await findDrafts();

@@ -11,6 +11,7 @@
     "migrate:blogger": "node scripts/convert-blogger.mjs",
     "sync:docs": "node scripts/sync-google-docs.mjs",
     "backfill:docs": "node scripts/backfill-google-docs.mjs",
+    "google:oauth-token": "node scripts/google-oauth-token.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

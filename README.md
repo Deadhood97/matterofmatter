@@ -32,7 +32,7 @@ Google Docs is the primary writing surface. Astro remains the renderer.
 3. Run the GitHub Actions workflow named `Sync Google Docs`.
 4. The workflow exports published Google Docs, saves generated Markdown into `src/content/blog`, downloads images into `public/images/docs`, builds the site, and commits the generated output.
 
-To migrate the existing archive into Google Docs first, run `Backfill Archive To Google Docs` in GitHub Actions. Start with `limit=3`, confirm the generated Docs look right, then run again with `limit=0`.
+To migrate the existing archive into Google Docs first, run `Backfill Archive To Google Docs` in GitHub Actions. Start with `limit=3`, confirm the generated Docs look right, then run again with `limit=0`. Backfill creates Google Docs as your Google user through OAuth; the service account is still used by the normal sync job to read published Docs.
 
 Required GitHub secrets:
 
@@ -42,6 +42,22 @@ GOOGLE_PUBLISH_FOLDER_ID
 GOOGLE_DRAFTS_FOLDER_ID
 GOOGLE_EDITOR_EMAIL
 ```
+
+Additional GitHub secrets for the archive backfill:
+
+```text
+GOOGLE_OAUTH_CLIENT_ID
+GOOGLE_OAUTH_CLIENT_SECRET
+GOOGLE_OAUTH_REFRESH_TOKEN
+```
+
+Create an OAuth client in Google Cloud, set `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` locally, then run:
+
+```sh
+npm run google:oauth-token
+```
+
+Open the printed URL, approve access, and save the printed refresh token as `GOOGLE_OAUTH_REFRESH_TOKEN`.
 
 Local commands use the same environment variables:
 

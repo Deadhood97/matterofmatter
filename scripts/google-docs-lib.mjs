@@ -21,21 +21,42 @@ export function requireEnv(name) {
   return value;
 }
 
-export async function getGoogleClients() {
-  const rawCredentials = requireEnv('GOOGLE_SERVICE_ACCOUNT_JSON');
-  const credentials = JSON.parse(rawCredentials);
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: [
-      'https://www.googleapis.com/auth/drive',
-      'https://www.googleapis.com/auth/documents',
-    ],
-  });
+export async function getGoogleClients(options = {}) {
+  const auth = await getGoogleAuth(options);
 
   return {
     drive: google.drive({ version: 'v3', auth }),
     docs: google.docs({ version: 'v1', auth }),
   };
+}
+
+export async function getGoogleAuth(options = {}) {
+  const scopes = [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/documents',
+  ];
+  const authMode = options.authMode ?? process.env.GOOGLE_AUTH_MODE;
+  const hasOAuthToken = Boolean(process.env.GOOGLE_OAUTH_REFRESH_TOKEN);
+
+  if (authMode === 'oauth' || hasOAuthToken) {
+    const auth = new google.auth.OAuth2(
+      requireEnv('GOOGLE_OAUTH_CLIENT_ID'),
+      requireEnv('GOOGLE_OAUTH_CLIENT_SECRET'),
+    );
+
+    auth.setCredentials({
+      refresh_token: requireEnv('GOOGLE_OAUTH_REFRESH_TOKEN'),
+    });
+
+    return auth;
+  }
+
+  const rawCredentials = requireEnv('GOOGLE_SERVICE_ACCOUNT_JSON');
+  const credentials = JSON.parse(rawCredentials);
+  return new google.auth.GoogleAuth({
+    credentials,
+    scopes,
+  });
 }
 
 export async function listDocsInFolder(drive, folderId) {
