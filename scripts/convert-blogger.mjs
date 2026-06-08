@@ -102,7 +102,7 @@ function rewriteImages(html, imageMap, auditEntry) {
   });
 }
 
-function frontmatter(entry, status, bloggerPath) {
+function frontmatter(entry, status) {
   const author = text(entry.author?.name) || 'ddHd';
   const labels = array(entry.category)
     .map((category) => text(category['@_term'] ?? category.term ?? category))
@@ -116,7 +116,6 @@ function frontmatter(entry, status, bloggerPath) {
     `updated: ${yamlString(text(entry.updated))}`,
     `author: ${yamlString(author)}`,
     `status: ${yamlString(status)}`,
-    `bloggerPath: ${yamlString(bloggerPath)}`,
     `labels: ${JSON.stringify(labels)}`,
     ...(description ? [`description: ${yamlString(description)}`] : []),
     '---',
@@ -165,7 +164,7 @@ for (const [index, entry] of entries.entries()) {
   const outputPath = path.join(outputBase, year, month, `${slug}.md`);
 
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.writeFile(outputPath, `${frontmatter(entry, status, bloggerPath)}${body}\n`, 'utf8');
+  await fs.writeFile(outputPath, `${frontmatter(entry, status)}${body}\n`, 'utf8');
 
   if (status === 'LIVE') audit.live += 1;
   if (status === 'DRAFT') audit.drafts += 1;

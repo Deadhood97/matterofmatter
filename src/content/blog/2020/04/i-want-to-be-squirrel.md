@@ -4,7 +4,6 @@ published: "2020-04-15T01:15:00Z"
 updated: "2020-04-15T01:22:40.350Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/i-want-to-be-squirrel.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

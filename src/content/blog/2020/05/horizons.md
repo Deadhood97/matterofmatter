@@ -4,7 +4,6 @@ published: "2020-05-05T22:31:00Z"
 updated: "2020-05-05T22:31:26.500Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/05/horizons.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

@@ -4,7 +4,6 @@ published: "2020-04-05T20:11:00Z"
 updated: "2020-04-05T20:11:36.575Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/am-i-really-writing-blog-now.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

@@ -4,7 +4,6 @@ published: "2020-04-09T19:54:00.001Z"
 updated: "2020-04-09T19:54:20.714Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/food-not-for-your-thought.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

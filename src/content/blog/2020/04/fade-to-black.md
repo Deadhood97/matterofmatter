@@ -4,7 +4,6 @@ published: "2020-04-24T21:39:00.003Z"
 updated: "2021-01-13T18:01:09.966Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/fade-to-black.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

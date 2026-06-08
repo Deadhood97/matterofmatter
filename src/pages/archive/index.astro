@@ -1,19 +1,40 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { formatDate, getLivePosts } from '../../lib/posts';
+import { excerpt, firstImage, formatDate, getLivePosts, groupPostsByYear, postUrl, readingTime } from '../../lib/posts';
 
 const posts = await getLivePosts();
+const postGroups = groupPostsByYear(posts);
 ---
 
 <BaseLayout title="Archive" description="All published Matter of Matter posts.">
-  <h1>Archive</h1>
-  <section class="post-list" aria-label="All posts">
+  <section>
+    <p class="section-label">All published posts</p>
+    <h1>Archive</h1>
+    <p class="lede">A chronological shelf of essays, loose thoughts, and occasionally useful nonsense.</p>
+  </section>
+
+  <section aria-label="All posts">
     {
-      posts.map((post) => (
-        <article class="post-row">
-          <h2><a href={post.data.bloggerPath}>{post.data.title}</a></h2>
-          <div class="meta">{formatDate(post.data.published)}</div>
-        </article>
+      postGroups.map((group) => (
+        <div class="year-group">
+          <div class="year-label">{group.year}</div>
+          <div class="post-list">
+            {
+              group.posts.map((post) => (
+                <article class={`post-row ${firstImage(post.body) ? 'with-media' : ''}`}>
+                  <div>
+                    <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+                    <div class="meta">
+                      {formatDate(post.data.published)} / {readingTime(post.body)}
+                    </div>
+                    <p>{excerpt(post.body, 150)}</p>
+                  </div>
+                  {firstImage(post.body) && <img class="post-thumb" src={firstImage(post.body)} alt="" loading="lazy" />}
+                </article>
+              ))
+            }
+          </div>
+        </div>
       ))
     }
   </section>

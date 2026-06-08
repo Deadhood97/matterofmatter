@@ -1,5 +1,5 @@
 import rss from '@astrojs/rss';
-import { getLivePosts } from '../lib/posts';
+import { getLivePosts, postUrl } from '../lib/posts';
 
 export async function GET(context) {
   const posts = await getLivePosts();
@@ -12,7 +12,7 @@ export async function GET(context) {
       title: post.data.title,
       pubDate: post.data.published,
       description: post.data.description,
-      link: post.data.bloggerPath,
+      link: postUrl(post),
     })),
   });
 }

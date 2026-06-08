@@ -4,7 +4,6 @@ published: "2020-04-27T20:23:00.002Z"
 updated: "2020-04-27T20:23:55.407Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/story-of-kingdom.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">

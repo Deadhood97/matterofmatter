@@ -1,26 +1,83 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { formatDate, getLivePosts } from '../lib/posts';
+import {
+  excerpt,
+  firstImage,
+  formatDate,
+  getLivePosts,
+  postUrl,
+  readingTime,
+} from '../lib/posts';
 
 const posts = await getLivePosts();
-const recentPosts = posts.slice(0, 7);
+const [latestPost, ...remainingPosts] = posts;
+const recentPosts = remainingPosts.slice(0, 6);
+const archivePreview = posts
+  .filter((post) => post.data.published.getFullYear() !== latestPost.data.published.getFullYear())
+  .filter((post, index, all) => (
+    all.findIndex((candidate) => (
+      candidate.data.published.getFullYear() === post.data.published.getFullYear()
+    )) === index
+  ))
+  .slice(0, 3);
+const latestImage = firstImage(latestPost.body);
 ---
 
 <BaseLayout>
-  <section>
-    <h1>Matter of Matter</h1>
-    <p class="lede">An archive of essays, fragments, and notes carried over from Blogger.</p>
+  <section class="home-masthead" aria-label="Site introduction">
+    <div>
+      <p class="section-label">Personal journal</p>
+      <h1 class="home-title">Matter of Matter</h1>
+    </div>
+    <p class="home-note">
+      Essays about ordinary life, absurd thoughts, names, food, memory, and the occasional hard reset.
+    </p>
   </section>
 
-  <section class="post-list" aria-label="Recent posts">
+  <section class="feature-post" aria-label="Latest post">
+    <div>
+      <p class="section-label">Latest writing</p>
+      <h1>{latestPost.data.title}</h1>
+      <div class="meta">
+        {formatDate(latestPost.data.published)} / {readingTime(latestPost.body)}
+      </div>
+      <p class="lede">{excerpt(latestPost.body, 230)}</p>
+      <a class="read-link" href={postUrl(latestPost)}>Read essay</a>
+    </div>
+    {latestImage && <img class="feature-image" src={latestImage} alt="" loading="eager" />}
+  </section>
+
+  <section class="recent-section" aria-label="Recent posts">
+    <p class="section-label">Recent notes</p>
+    <div class="post-list">
     {
       recentPosts.map((post) => (
-        <article class="post-row">
-          <h2><a href={post.data.bloggerPath}>{post.data.title}</a></h2>
-          <div class="meta">{formatDate(post.data.published)}</div>
-          {post.data.description && <p>{post.data.description}</p>}
+        <article class={`post-row ${firstImage(post.body) ? 'with-media' : ''}`}>
+          <div>
+            <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+            <div class="meta">
+              {formatDate(post.data.published)} / {readingTime(post.body)}
+            </div>
+            <p>{excerpt(post.body)}</p>
+          </div>
+          {firstImage(post.body) && <img class="post-thumb" src={firstImage(post.body)} alt="" loading="lazy" />}
         </article>
       ))
     }
+    </div>
+  </section>
+
+  <section class="archive-preview" aria-label="From the archive">
+    <p class="section-label">From the archive</p>
+    <div class="archive-preview-grid">
+      {
+        archivePreview.map((post) => (
+          <article class="archive-preview-item">
+            <div class="meta">{post.data.published.getFullYear()}</div>
+            <h3><a href={postUrl(post)}>{post.data.title}</a></h3>
+          </article>
+        ))
+      }
+    </div>
   </section>
 </BaseLayout>

@@ -4,7 +4,6 @@ published: "2020-04-18T14:42:00.002Z"
 updated: "2020-04-18T14:42:41.497Z"
 author: "ddHd"
 status: "LIVE"
-bloggerPath: "/2020/04/the-floor-is-lava.html"
 labels: []
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">
