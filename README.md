@@ -70,7 +70,15 @@ npm run backfill:docs
 
 ## Deployment
 
-Cloudflare Pages settings:
+GitHub Pages publishes from the `Deploy GitHub Pages` workflow:
+
+```text
+https://deadhood97.github.io/matterofmatter/
+```
+
+The Astro config uses `site: "https://deadhood97.github.io"` and `base: "/matterofmatter"` so project-page links and assets resolve correctly.
+
+Cloudflare Pages settings, if used later:
 
 ```text
 Build command: npm run build

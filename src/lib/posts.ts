@@ -1,5 +1,7 @@
 import { getCollection } from 'astro:content';
 
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 export async function getLivePosts() {
   const posts = await getCollection('blog', ({ data }) => data.status === 'LIVE');
 
@@ -16,7 +18,11 @@ export function formatDate(date: Date) {
 }
 
 export function postUrl(post: { id: string }) {
-  return `/${post.id.replace(/\\/g, '/')}.html`;
+  return sitePath(`/${post.id.replace(/\\/g, '/')}.html`);
+}
+
+export function sitePath(path: string) {
+  return `${basePath}${path}`;
 }
 
 export function readingTime(body = '') {

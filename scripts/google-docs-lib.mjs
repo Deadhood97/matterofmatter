@@ -7,6 +7,7 @@ import path from 'node:path';
 export const BLOG_DIR = path.resolve('src/content/blog');
 export const DRAFTS_DIR = path.resolve('drafts');
 export const DOC_IMAGE_DIR = path.resolve('public/images/docs');
+export const SITE_BASE_PATH = normalizeBasePath(process.env.SITE_BASE_PATH ?? '/matterofmatter');
 
 const GOOGLE_DOC_MIME = 'application/vnd.google-apps.document';
 const HTML_ZIP_MIME = 'application/zip';
@@ -350,7 +351,7 @@ export function imagePathsForPost(postId) {
   const year = parts[0];
   const month = parts[1];
   const imageDir = path.join(DOC_IMAGE_DIR, year, month, slug);
-  const publicBase = `/images/docs/${year}/${month}/${slug}`;
+  const publicBase = sitePath(`/images/docs/${year}/${month}/${slug}`);
 
   return { imageDir, publicBase };
 }
@@ -413,7 +414,10 @@ export async function htmlWithEmbeddedLocalImages(body) {
       continue;
     }
 
-    const localPath = path.resolve('public', src.replace(/^\//, ''));
+    const publicPath = src.startsWith(`${SITE_BASE_PATH}/`)
+      ? src.slice(SITE_BASE_PATH.length + 1)
+      : src.replace(/^\//, '');
+    const localPath = path.resolve('public', publicPath);
 
     try {
       const bytes = await fs.readFile(localPath);
@@ -506,13 +510,29 @@ function isSafeImageUrl(value) {
     return false;
   }
 
-  return normalized.startsWith('/images/') || /^data:image\/(png|gif|jpe?g|webp);base64,/i.test(normalized);
+  return normalized.startsWith('/images/')
+    || normalized.startsWith(`${SITE_BASE_PATH}/images/`)
+    || /^data:image\/(png|gif|jpe?g|webp);base64,/i.test(normalized);
 }
 
 function safeAssetName(value) {
   return value
     .replace(/[^A-Za-z0-9._-]+/g, '-')
     .replace(/^-+|-+$/g, '') || 'image';
+}
+
+function normalizeBasePath(value) {
+  const trimmed = value.trim();
+
+  if (!trimmed || trimmed === '/') {
+    return '';
+  }
+
+  return `/${trimmed.replace(/^\/+|\/+$/g, '')}`;
+}
+
+function sitePath(value) {
+  return `${SITE_BASE_PATH}${value}`;
 }
 
 function mimeFromPath(filePath) {

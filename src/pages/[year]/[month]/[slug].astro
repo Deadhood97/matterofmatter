@@ -7,7 +7,7 @@ export async function getStaticPaths() {
   const posts = await getLivePosts();
 
   return posts.map((post) => {
-    const match = postUrl(post).match(/^\/(?<year>\d{4})\/(?<month>\d{2})\/(?<slug>[^/]+)\.html$/);
+    const match = `/${post.id.replace(/\\/g, '/')}.html`.match(/^\/(?<year>\d{4})\/(?<month>\d{2})\/(?<slug>[^/]+)\.html$/);
 
     if (!match?.groups) {
       throw new Error(`Unexpected post path: ${post.id}`);

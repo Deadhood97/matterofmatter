@@ -1,7 +1,7 @@
 import { XMLParser } from 'fast-xml-parser';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { sanitizeHtmlFragment } from './google-docs-lib.mjs';
+import { sanitizeHtmlFragment, SITE_BASE_PATH } from './google-docs-lib.mjs';
 
 const root = path.resolve('..');
 const feedPath = path.join(root, 'takeout-extracted', 'Takeout', 'Blogger', 'Blogs', 'Matter of Matter', 'feed.atom');
@@ -97,7 +97,7 @@ function rewriteImages(html, imageMap, auditEntry) {
       return match;
     }
 
-    const localSrc = `/images/blogger/${encodeURI(localName)}`;
+    const localSrc = `${SITE_BASE_PATH}/images/blogger/${encodeURI(localName)}`;
     auditEntry.matchedImages.push({ from: src, to: localSrc });
     return `${before}${localSrc}${after}`;
   });
