@@ -5,6 +5,8 @@ updated: "2020-04-27T20:23:55.407Z"
 author: "ddHd"
 status: "LIVE"
 labels: []
+source: "google-docs"
+googleDocId: "1eE84t2ZgLx2JAn_hQ4a5wzc-ITK8yQb8zuxek2YzRF4"
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">
 Once upon a time, I created a kingdom. A fairly new kingdom, not unlike others. Had standard monarchs, the peasants, the bourgeoisie (if you would like it to have some). It had military as well, basically nothing out of the ordinary. The people of the kingdom, let's call them Narvols, were created along with the kingdom. So they didn't really know how to live and function in society. But the bigger kingdoms, Pilor and Milor, helped a ton in the development of the new kingdom. They gifted the kingdom specialized military units to train and prepare it for attacks of the unknown. They also made sure that the new kingdom was full of supplies and grains since the Narvols did not yet have any concept of farming.<br />
@@ -24,4 +26,3 @@ The Narvols were not idiots, they were aware of the kind of disasters that the h
 But Narvols were optimistic about the problem. They knew the solution. They had to burn the Flums. There was no other way of getting rid of them. They could control the extent of farming they did but they had gotten accustomed to a certain lifestyle now which was not easy to get rid of. And thus started the practice of burning Flums. At first, Narvols were excited. They were burning the Flums. But they got weary fast, for the process of burning Flums was exhausting. And it took very long to burn a single Flum.<br />
 <br />
 The Flums are still growing in the kingdom. Once a while the Narvols get motivated to burn the Flums again. But I believe it would really be better for them to just control the grain supply if they want the Flums to die on their own. Whatever, it's not my place to tell them. I'm just their God.</div>
-
