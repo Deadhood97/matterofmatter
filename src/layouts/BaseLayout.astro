@@ -276,6 +276,7 @@ const sitePath = (path: string) => `${basePath}${path}`;
       .archive-preview,
       .recent-section,
       .year-group,
+      .page-nav,
       .post-nav {
         margin-top: clamp(2.8rem, 7vw, 5rem);
       }
@@ -356,6 +357,7 @@ const sitePath = (path: string) => `${basePath}${path}`;
         margin-bottom: 1rem;
       }
 
+      .page-nav,
       .post-nav {
         border-top: 1px solid var(--line);
         display: grid;
@@ -364,10 +366,12 @@ const sitePath = (path: string) => `${basePath}${path}`;
         padding-top: 1.5rem;
       }
 
+      .page-nav a,
       .post-nav a {
         text-decoration: none;
       }
 
+      .page-nav strong,
       .post-nav strong {
         display: block;
         font-size: 1.1rem;
@@ -375,6 +379,7 @@ const sitePath = (path: string) => `${basePath}${path}`;
         margin-top: 0.25rem;
       }
 
+      .page-nav-next,
       .post-nav-next {
         text-align: right;
       }
@@ -405,6 +410,7 @@ const sitePath = (path: string) => `${basePath}${path}`;
         .feature-post,
         .home-masthead,
         .year-group,
+        .page-nav,
         .post-nav {
           grid-template-columns: 1fr;
         }
@@ -431,6 +437,7 @@ const sitePath = (path: string) => `${basePath}${path}`;
           padding-top: 0;
         }
 
+        .page-nav-next,
         .post-nav-next {
           text-align: left;
         }

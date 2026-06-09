@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  excerpt,
+  firstImage,
+  formatDate,
+  getLivePosts,
+  postUrl,
+  readingTime,
+  sitePath,
+} from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const pageSize = 7;
+  const posts = await getLivePosts();
+  const paginatedPosts = posts.slice(pageSize);
+  const pageCount = Math.ceil(paginatedPosts.length / pageSize) + 1;
+
+  return Array.from({ length: Math.max(0, pageCount - 1) }, (_, index) => {
+    const page = index + 2;
+    const start = (page - 2) * pageSize;
+
+    return {
+      params: { page: String(page) },
+      props: {
+        page,
+        pageCount,
+        posts: paginatedPosts.slice(start, start + pageSize),
+      },
+    };
+  });
+}
+
+const { page, pageCount, posts } = Astro.props;
+const previousPageUrl = page === 2 ? sitePath('/') : sitePath(`/page/${page - 1}.html`);
+const nextPageUrl = page < pageCount ? sitePath(`/page/${page + 1}.html`) : undefined;
+---
+
+<BaseLayout title={`Posts page ${page}`} description={`Matter of Matter posts, page ${page}.`}>
+  <section>
+    <p class="section-label">More posts</p>
+    <h1>Page {page}</h1>
+    <p class="lede">Keep going through the shelf, newest to oldest.</p>
+  </section>
+
+  <section aria-label={`Posts page ${page}`}>
+    <div class="post-list">
+      {
+        posts.map((post) => (
+          <article class={`post-row ${firstImage(post.body) ? 'with-media' : ''}`}>
+            <div>
+              <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+              <div class="meta">
+                {formatDate(post.data.published)} / {readingTime(post.body)}
+              </div>
+              <p>{excerpt(post.body, 150)}</p>
+            </div>
+            {firstImage(post.body) && <img class="post-thumb" src={firstImage(post.body)} alt="" loading="lazy" />}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <nav class="page-nav" aria-label="Post pages">
+    <a href={previousPageUrl}>
+      <span class="meta">Previous</span>
+      <strong>{page === 2 ? 'Latest posts' : `Page ${page - 1}`}</strong>
+    </a>
+    {
+      nextPageUrl && (
+        <a class="page-nav-next" href={nextPageUrl}>
+          <span class="meta">Next</span>
+          <strong>Page {page + 1}</strong>
+        </a>
+      )
+    }
+  </nav>
+</BaseLayout>

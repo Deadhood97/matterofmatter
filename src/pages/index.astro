@@ -7,11 +7,13 @@ import {
   getLivePosts,
   postUrl,
   readingTime,
+  sitePath,
 } from '../lib/posts';
 
 const posts = await getLivePosts();
 const [latestPost, ...remainingPosts] = posts;
 const recentPosts = remainingPosts.slice(0, 6);
+const hasMorePosts = remainingPosts.length > recentPosts.length;
 const archivePreview = posts
   .filter((post) => post.data.published.getFullYear() !== latestPost.data.published.getFullYear())
   .filter((post, index, all) => (
@@ -65,6 +67,16 @@ const latestImage = firstImage(latestPost.body);
       ))
     }
     </div>
+    {
+      hasMorePosts && (
+        <nav class="page-nav" aria-label="More posts">
+          <a class="page-nav-next" href={sitePath('/page/2.html')}>
+            <span class="meta">More posts</span>
+            <strong>Next page</strong>
+          </a>
+        </nav>
+      )
+    }
   </section>
 
   <section class="archive-preview" aria-label="From the archive">
