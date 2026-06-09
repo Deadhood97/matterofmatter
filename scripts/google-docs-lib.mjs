@@ -26,17 +26,15 @@ export async function getGoogleClients(options = {}) {
 
   return {
     drive: google.drive({ version: 'v3', auth }),
-    docs: google.docs({ version: 'v1', auth }),
   };
 }
 
 export async function getGoogleAuth(options = {}) {
-  const scopes = [
-    'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/documents',
-  ];
   const authMode = options.authMode ?? process.env.GOOGLE_AUTH_MODE;
   const hasOAuthToken = Boolean(process.env.GOOGLE_OAUTH_REFRESH_TOKEN);
+  const scopes = authMode === 'oauth' || hasOAuthToken
+    ? ['https://www.googleapis.com/auth/drive.file']
+    : ['https://www.googleapis.com/auth/drive.readonly'];
 
   if (authMode === 'oauth' || hasOAuthToken) {
     const auth = new google.auth.OAuth2(
@@ -137,7 +135,86 @@ export function cleanGoogleHtml(html) {
     }
   });
 
-  return body.html()?.trim() ?? '';
+  return sanitizeHtmlFragment(body.html()?.trim() ?? '');
+}
+
+export function sanitizeHtmlFragment(html) {
+  const $ = cheerio.load(`<main>${html}</main>`, { decodeEntities: false });
+  const dangerousTags = 'script, style, iframe, object, embed, form, input, button, textarea, select, option, meta, link, base, svg, math';
+  const allowedTags = new Set([
+    'a',
+    'blockquote',
+    'br',
+    'code',
+    'div',
+    'em',
+    'figcaption',
+    'figure',
+    'h2',
+    'h3',
+    'h4',
+    'hr',
+    'i',
+    'img',
+    'li',
+    'ol',
+    'p',
+    'pre',
+    'strong',
+    'table',
+    'tbody',
+    'td',
+    'th',
+    'thead',
+    'tr',
+    'ul',
+  ]);
+
+  $('main').find(dangerousTags).remove();
+
+  $('main').find('*').each((_, element) => {
+    const node = $(element);
+    const tagName = element.tagName?.toLowerCase();
+
+    if (!allowedTags.has(tagName)) {
+      node.replaceWith(node.contents());
+      return;
+    }
+
+    for (const attribute of Object.keys(element.attribs ?? {})) {
+      if (!isAllowedAttribute(tagName, attribute)) {
+        node.removeAttr(attribute);
+      }
+    }
+
+    if (tagName === 'a') {
+      const href = node.attr('href');
+
+      if (!href || !isSafeLinkUrl(href)) {
+        node.removeAttr('href');
+      } else if (/^https?:\/\//i.test(href)) {
+        node.attr('rel', 'noopener noreferrer');
+      }
+    }
+
+    if (tagName === 'img') {
+      const src = node.attr('src');
+
+      if (!src || !isSafeImageUrl(src)) {
+        node.remove();
+        return;
+      }
+
+      if (!node.attr('alt')) {
+        node.attr('alt', '');
+      }
+
+      node.attr('loading', 'lazy');
+      node.attr('decoding', 'async');
+    }
+  });
+
+  return $('main').html()?.trim() ?? '';
 }
 
 export async function copyExportedImages(html, assets, imageDir, publicBase) {
@@ -164,7 +241,7 @@ export async function copyExportedImages(html, assets, imageDir, publicBase) {
     node.attr('src', `${publicBase}/${encodeURIComponent(filename)}`);
   }
 
-  return $('main').html()?.trim() ?? html;
+  return sanitizeHtmlFragment($('main').html()?.trim() ?? html);
 }
 
 export function parseFrontmatter(raw) {
@@ -290,20 +367,6 @@ export async function uniquePostPath(date, slug) {
   return candidate;
 }
 
-export async function createDriveFolder(drive, name, parentId) {
-  const response = await drive.files.create({
-    requestBody: {
-      name,
-      mimeType: 'application/vnd.google-apps.folder',
-      ...(parentId ? { parents: [parentId] } : {}),
-    },
-    fields: 'id, name',
-    supportsAllDrives: true,
-  });
-
-  return response.data;
-}
-
 export async function importHtmlAsGoogleDoc(drive, { name, html, folderId }) {
   const response = await drive.files.create({
     requestBody: {
@@ -406,6 +469,44 @@ function parseYamlValue(value) {
   } catch {
     return trimmed.replace(/^"|"$/g, '');
   }
+}
+
+function isAllowedAttribute(tagName, attribute) {
+  const name = attribute.toLowerCase();
+
+  if (name.startsWith('on')) {
+    return false;
+  }
+
+  if (tagName === 'a') {
+    return ['href', 'title', 'rel'].includes(name);
+  }
+
+  if (tagName === 'img') {
+    return ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding'].includes(name);
+  }
+
+  return false;
+}
+
+function isSafeLinkUrl(value) {
+  const normalized = value.trim().replace(/&amp;/g, '&');
+
+  if (/[\u0000-\u001F\u007F]/.test(normalized)) {
+    return false;
+  }
+
+  return /^(https?:\/\/|mailto:|\/|#)/i.test(normalized);
+}
+
+function isSafeImageUrl(value) {
+  const normalized = value.trim().replace(/&amp;/g, '&');
+
+  if (/[\u0000-\u001F\u007F]/.test(normalized)) {
+    return false;
+  }
+
+  return normalized.startsWith('/images/') || /^data:image\/(png|gif|jpe?g|webp);base64,/i.test(normalized);
 }
 
 function safeAssetName(value) {

@@ -7,8 +7,7 @@ const port = Number(process.env.GOOGLE_OAUTH_PORT ?? '53682');
 const redirectUri = `http://localhost:${port}/oauth2callback`;
 const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 const scopes = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/documents',
+  'https://www.googleapis.com/auth/drive.file',
 ];
 
 const url = auth.generateAuthUrl({

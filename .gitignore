@@ -19,6 +19,10 @@ drafts/
 # environment variables
 .env
 .env.production
+.env.*
+client_secret*.json
+oauth-token*.log
+matter-oauth-token*.log
 
 # macOS-specific files
 .DS_Store

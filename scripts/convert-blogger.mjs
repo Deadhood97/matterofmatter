@@ -1,6 +1,7 @@
 import { XMLParser } from 'fast-xml-parser';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { sanitizeHtmlFragment } from './google-docs-lib.mjs';
 
 const root = path.resolve('..');
 const feedPath = path.join(root, 'takeout-extracted', 'Takeout', 'Blogger', 'Blogs', 'Matter of Matter', 'feed.atom');
@@ -159,7 +160,7 @@ for (const [index, entry] of entries.entries()) {
     matchedImages: [],
     unmatchedImages: [],
   };
-  const body = rewriteImages(content, imageMap, auditEntry);
+  const body = sanitizeHtmlFragment(rewriteImages(content, imageMap, auditEntry));
   const outputBase = status === 'LIVE' ? blogOut : draftOut;
   const outputPath = path.join(outputBase, year, month, `${slug}.md`);
 

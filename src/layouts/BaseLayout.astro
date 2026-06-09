@@ -21,6 +21,10 @@ const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data:; object-src 'none'; script-src 'none'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title={siteTitle} href="/rss.xml" />
@@ -327,10 +331,6 @@ const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
         border-left: 3px solid var(--accent);
         color: var(--muted);
         padding-left: 1.1rem;
-      }
-
-      .post-body .separator {
-        clear: both;
       }
 
       .post-body img {
