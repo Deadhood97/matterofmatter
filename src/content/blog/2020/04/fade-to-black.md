@@ -5,6 +5,8 @@ updated: "2021-01-13T18:01:09.966Z"
 author: "ddHd"
 status: "LIVE"
 labels: []
+source: "google-docs"
+googleDocId: "1_BqCWgSeEILJzZXyHU1J5zuDsLlupqP6vkYx9opk--8"
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">
 <div class="separator" style="clear: both; text-align: center;">
@@ -24,4 +26,3 @@ In order to construct a new world, you have to raze the old one. That's what vil
 We probably are missing out on a whole new experience. We can just speculate what the world would be with its new administrators. But that's all for the fictional worlds, where there is a single visionary of the new order. For our world, a world with tons of villains, where every single person is trying everything in their power to transform their dreams to reality, it doesn't seem like a very good idea. For our world, a world with tons of villains, in which people destroy in the facade of development, a better idea is to back off. For our world, a world with tons of villains, not having a hero is scary. <br />
 <br />
 &nbsp;</div>
-

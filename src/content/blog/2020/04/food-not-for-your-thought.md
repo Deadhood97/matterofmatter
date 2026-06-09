@@ -5,6 +5,8 @@ updated: "2020-04-09T19:54:20.714Z"
 author: "ddHd"
 status: "LIVE"
 labels: []
+source: "google-docs"
+googleDocId: "1iZErWka60cxzKwkiQO57MKO4t0jbB03VNgR9EYgh024"
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">
 <h3 style="text-align: left;">
@@ -25,4 +27,3 @@ No matter where you are right now in the world if you are told to imagine someth
 Cooking seems complex since there are multitudes of things you have to consider. But if are adept enough, you know you just have to know your ingredients. You ought to know what doing something to an ingredient will result in. And while I'm writing this, I realize how ignorant this blog post is. I actually have very little clue about food. But I intend to learn more about it. Maybe then I'll write another blog post. Maybe then I'll come back to this blog post and laugh uncontrollably. So if you are reading this, hi future me! (so much cringe, my god) Hopefully, you've followed the path I intended for you. Or maybe a better one, or maybe a worse one (don't cry man, it'll be okay). Hopefully, you are okay. That's all I need.<br />
 <br />
 </div>
-

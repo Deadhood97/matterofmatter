@@ -5,6 +5,8 @@ updated: "2020-04-05T20:11:36.575Z"
 author: "ddHd"
 status: "LIVE"
 labels: []
+source: "google-docs"
+googleDocId: "1VRYd0j6Hd7CBGvvZTDAv7Az91kkLF9QvsGwkDwHykOg"
 ---
 <div dir="ltr" style="text-align: left;" trbidi="on">
 <h2 style="text-align: left;">
@@ -34,4 +36,3 @@ labels: []
 <div style="text-align: left;">
 <span style="font-family: &quot;Trebuchet MS&quot;, sans-serif;">I guess that was a good cue to complete this blog entry for now. I do have a lot of thoughts, this is just a glimpse of them, not even that actually. I really need to be sure of myself. Maybe that's another reason why I'm writing this blog. Well I hope someone accompanies me on this journey. Enough with the cliche, BYE!</span></div>
 </div>
-
